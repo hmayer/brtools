@@ -37,16 +37,12 @@ export class CnpjModule extends CliModule {
     return result;
   }
 
-  private asciiMinus48(val: string) {
-    return val.charCodeAt(0) - 48;
-  }
-
   private checkSum(base: string, start: number) {
     const sum = base.split('').reduce((acc, val) => {
       if (start < 2) {
         start = 9;
       }
-      acc += start * this.asciiMinus48(val);
+      acc += start * Number(val);
       start--;
       return acc;
     }, 0);
@@ -74,7 +70,7 @@ export class CnpjModule extends CliModule {
   }
 
   validate(cnpj: string) {
-    cnpj = this.cleanup(cnpj);
+    cnpj = NumbersHelper.onlyNumbers(cnpj);
     if (cnpj.length > 14) return false;
     if (cnpj.length < 14) {
       cnpj = cnpj.padStart(14, '0');
@@ -101,10 +97,5 @@ export class CnpjModule extends CliModule {
       .replace(/(\d{3})(\d)/, '$1.$2')
       .replace(/(\d{3})(\d)/, '$1/$2')
       .replace(/(\d{4})(\d)/, '$1-$2');
-  }
-
-  private cleanup(cnpj: string) {
-    const cnpjRegex = /[^A-Z0-9]/g;
-    return cnpj.replace(cnpjRegex, '');
   }
 }

@@ -30,19 +30,11 @@ Uma ferramenta CLI moderna para utilitários brasileiros, desenvolvida para faci
 
 ## 📦 Instalação
 
-Pré-requisito: Node.js 20 ou superior.
-
 ```bash
 npm install -g @joaoseixas/brtools
 ```
 
-Também é possível executar sem instalação global:
-
-```bash
-npx @joaoseixas/brtools cpf --generate
-```
-
-> **Nota**: A opção `--copy` depende de suporte de clipboard no sistema. No Linux, pode ser necessário instalar `xclip`.
+> **Nota**: O projeto é buildado automaticamente durante a instalação, garantindo que você sempre tenha a versão mais atualizada.
 
 ## 🛠️ Uso
 
@@ -278,38 +270,32 @@ src/
 
 ### Pré-requisitos
 
-- Node.js 20+
-- pnpm
+- Node.js 16+
+- pnpm (recomendado) ou npm
 
 ### Scripts Disponíveis
 
 ```bash
-# Instalar dependências
-pnpm install --frozen-lockfile
-
 # Compilar o projeto
-pnpm build
+npm run build
 
 # Executar testes
-pnpm test
+npm run test
 
-# Executar lint
-pnpm lint
+# Instalar dependências
+pnpm install
 
-# Validar o pacote antes de publicar
-pnpm release:check
-
-# Validar, criar versão patch e publicar no npm
-pnpm release:patch
+# Fazer build e criar nova versão patch
+npm run v:patch
 ```
 
-### Publicação
+### Instalação Automática
 
-O pacote publicado usa o binário compilado em `dist/index.js`. Antes de empacotar, o script `prepack` executa `pnpm build` para garantir que o `dist/` esteja atualizado.
+O projeto está configurado com um script `prepare` que:
 
-Use `pnpm release:check` para rodar lint, build, testes e conferir o conteúdo do pacote com `npm pack --dry-run`. Use `pnpm release:patch` apenas quando quiser criar uma nova versão patch e publicar no npm com acesso público.
-
-Ao fazer merge na branch `main`, o GitHub Actions publica automaticamente a versão do `package.json` se ela ainda não existir no npm. A publicação usa Trusted Publishing do npm com o workflow `.github/workflows/publish.yml`.
+- Compila automaticamente o TypeScript durante a instalação
+- Garante que os usuários sempre tenham a versão mais recente
+- Não requer distribuição da pasta `dist` no repositório
 
 ### Estrutura do Projeto
 
@@ -383,7 +369,7 @@ export default function (program: Command) {
 - **Commander.js**: Framework para CLI
 - **Chalk**: Colorização de output
 - **Copy-paste**: Funcionalidade de clipboard
-- **bcryptjs**: Biblioteca para hash seguro de senhas sem dependência nativa
+- **bcrypt**: Biblioteca para hash seguro de senhas
 - **Jest**: Framework de testes
 - **Node.js**: Runtime
 
