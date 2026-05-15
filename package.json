@@ -1,6 +1,6 @@
 {
   "name": "@joaoseixas/brtools",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "A CLI tool to help you with your daily tasks",
   "bin": {
     "brtools": "dist/index.js"
@@ -8,8 +8,11 @@
   "scripts": {
     "build": "tsc",
     "prepare": "husky",
+    "prepack": "pnpm build",
     "test": "jest",
     "v:patch": "pnpm build && npm version patch",
+    "release:check": "pnpm lint && pnpm build && pnpm test && npm pack --dry-run",
+    "release:patch": "pnpm release:check && npm version patch && npm publish --access public",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
     "format": "prettier --write .",
@@ -24,19 +27,27 @@
   },
   "files": [
     "dist/",
-    "src/",
     "README.md"
   ],
   "keywords": [
     "cli",
     "brasil",
     "cpf",
+    "cnpj",
     "utils"
   ],
   "author": "Joao Seixas",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joaoseixas88/brtools"
+  },
+  "packageManager": "pnpm@10.26.0",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
-    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
     "chalk": "^4.1.2",
     "commander": "^14.0.0",
     "copy-paste": "^2.2.0"
@@ -47,7 +58,6 @@
     "@eslint/json": "^0.13.0",
     "@swc/core": "^1.12.11",
     "@swc/jest": "^0.2.39",
-    "@types/bcrypt": "^5.0.2",
     "@types/copy-paste": "^1.1.33",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.0.11",
